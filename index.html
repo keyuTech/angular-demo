@@ -9,9 +9,8 @@
 </head>
 
 <body>
-    <h2>I am not inside an AngularJS app</h2>
-    <div ng-app="embeddedApp">
-        <h3>Inside an AngularJS app</h3>
+    <div ng-controller="MyController">
+        {{ person.name }}
     </div>
 </body>
 
