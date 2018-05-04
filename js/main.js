@@ -1,10 +1,12 @@
 var app = angular.module('myApp', [])
 console.log('a')
 
+// 从NPR获取音频所需的key和url
 var apiKey = 'MDExODQ2OTg4MDEzNzQ5OTM4Nzg5MzFiZA001'
 var nprUrl = 'http://api.npr.org/query?id=61&fields=relatedLink,title,byline,text,audio,image,pullQuote,all&output=JSON'
 console.log('b')
 
+// 定义控制器并注入player依赖
 app.controller('PlayerController', ['$scope', '$http', 'player', function($scope, $http, player) {
   $http({
     method: 'JSONP',
@@ -18,12 +20,14 @@ app.controller('PlayerController', ['$scope', '$http', 'player', function($scope
 }])
 console.log('c')
 
+// audio依赖
 app.factory('audio', ['$document', function($document) {
   var audio = $document[0].createElement('audio')
   return audio
 }])
 console.log('d')
 
+// player中注入audio依赖
 app.factory('player', ['audio', function(audio) {
   var player = {
     playing: false,
@@ -55,6 +59,7 @@ app.factory('player', ['audio', function(audio) {
 }])
 console.log('e')
 
+// 自定义指令
 app.directive('nprLink', function() {
    return {
      restrict: 'EA',
