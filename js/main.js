@@ -1,15 +1,77 @@
 var app = angular.module('myApp', [])
+console.log('a')
 
-app.controller('MyController', function($scope) {
-    $scope.person = {
-      name: 'Ari Lerner'
-    }
-})
+var apiKey = 'MDExODQ2OTg4MDEzNzQ5OTM4Nzg5MzFiZA001'
+var nprUrl = 'http://api.npr.org/query?id=61&fields=relatedLink,title,byline,text,audio,image,pullQuote,all&output=JSON'
+console.log('b')
 
-app.controller('PlayerController', ['$scope', function($scope){
+app.controller('PlayerController', ['$scope', '$http', 'player', function($scope, $http, player) {
+  $http({
+    method: 'JSONP',
+    url: nprUrl + '&apiKey=' + apiKey + '&callback=JSON_CALLBACK'
+  }).success(function(data, status) {
+    $scope.programs = data.list.story
+  }).error(function(data, status) {
+  })
 
+  $scope.player = player
 }])
+console.log('c')
+
+app.factory('audio', ['$document', function($document) {
+  var audio = $document[0].createElement('audio')
+  return audio
+}])
+console.log('d')
+
+app.factory('player', ['audio', function(audio) {
+  var player = {
+    playing: false,
+    current: null,
+    ready: false
+  }
+  play = function(program){
+    console.log(1)
+    console.log(program)
+    if(player.playing){
+      player.stop()
+    } else {
+      var url = program.audio[0].format.mp4.$text
+      player.current = program
+      audio.src = url
+      audio.play()
+      player.playing = true
+    }
+  }
+  stop = function(){
+    if(player.playing){
+      play.pause()
+      player.playing = false
+      player.ready = false
+      player.current = null
+    }
+  }
+  return player
+}])
+console.log('e')
+
+app.directive('nprLink', function() {
+   return {
+     restrict: 'EA',
+     require: ['^ngModel'],
+     replace: true,
+     scope: {
+       ngModel: '=',
+       play: '&'
+     },
+     templateUrl: '/views/nprListItem.html',
+     link: function(scope, ele, attr) {
+       scope.duration = scope.ngModel.audio[0].duration.$text;
+     }
+   } 
+})
+console.log('f')
 
 app.controller('RelatedController', ['$scope', function($scope){
-  
+
 }])

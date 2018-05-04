@@ -1,0 +1,13 @@
+<div class="nprLink row playrow" ng-click="player.play(ngModel)">
+   <span class="name">
+     <button class="playButton columns"><div class="triangle"></div></button>
+     <div class="columns">
+       <div class="row">
+         <span>{{ ngModel.title.$text }}</span>
+       </div>
+       <div class="row">
+         <div class="columns push-8"><a href="{{ ngModel.link[0].$text }}">Link</a></div>
+       </div>
+     </div>
+   </span>
+ </div>

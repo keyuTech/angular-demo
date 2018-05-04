@@ -4,14 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="./style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="./js/main.js"></script>
 </head>
 
 <body>
-    <div ng-controller="MyController">
-        {{ person.name }}
+    <div class="row">
+        <h1>NPR player</h1>
     </div>
+
+    <div class="container row">
+        <div class="">
+            <h2>Player</h2>
+            <div ng-controller="PlayerController">
+
+                <div class="container">
+                    <div player-view class="" ng-model="player"></div>
+                </div>
+
+                <ul id="programs_list" class="">
+                    <li ng-repeat="program in programs">
+                        <span npr-link player="player" ng-model="program"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>
