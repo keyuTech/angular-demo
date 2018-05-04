@@ -29,11 +29,6 @@ console.log('d')
 
 // player中注入audio依赖
 app.factory('player', ['audio', function(audio) {
-  var player = {
-    playing: false,
-    current: null,
-    ready: false
-  }
   play = function(program){
     console.log(1)
     console.log(program)
@@ -55,12 +50,19 @@ app.factory('player', ['audio', function(audio) {
       player.current = null
     }
   }
+  var player = {
+    playing: false,
+    current: null,
+    ready: false,
+    play: play,
+    stop: stop
+  }
   return player
 }])
 console.log('e')
 
 // 自定义指令
-app.directive('nprLink', function() {
+app.directive('nprLink', ['player', function(player) {
    return {
      restrict: 'EA',
      require: ['^ngModel'],
@@ -72,9 +74,10 @@ app.directive('nprLink', function() {
      templateUrl: '/views/nprListItem.html',
      link: function(scope, ele, attr) {
        scope.duration = scope.ngModel.audio[0].duration.$text;
+       scope.player = player
      }
    } 
-})
+}])
 console.log('f')
 
 app.controller('RelatedController', ['$scope', function($scope){
